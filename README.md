@@ -11,9 +11,24 @@ A macOS SwiftUI app for giving presentations where each slide is a URL displayed
 - **Zoom**: Cmd+=/- to adjust text size in both preview and fullscreen
 - **Drag to reorder**: Drag slides by their number to rearrange
 
+## Building from the command line
+
+Build and run without opening Xcode:
+
+```bash
+xcodebuild -project Present.xcodeproj -scheme Present -configuration Release build SYMROOT=build
+open build/Release/Present.app
+```
+
+To clean the build:
+
+```bash
+rm -rf build
+```
+
 ## Usage
 
-1. Open `Present.xcodeproj` in Xcode and build/run (Cmd+R)
+1. Build and launch using the command above, or open `Present.xcodeproj` in Xcode and build/run (Cmd+R)
 2. Add URLs in the sidebar, preview them in the right panel
 3. **Presentation > Play** (Cmd+Shift+P) enters fullscreen
 4. Left/Right arrow keys navigate between slides
