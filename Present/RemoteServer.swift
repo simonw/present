@@ -122,8 +122,7 @@ final class RemoteServer {
         font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
         background: #1a1a2e; color: #eee;
         display: flex; flex-direction: column; align-items: center;
-        justify-content: center; min-height: 100dvh;
-        padding: 20px; gap: 24px;
+        height: 100dvh; padding: 20px; gap: 16px;
         -webkit-user-select: none; user-select: none;
       }
       #status { font-size: 1.6rem; font-weight: 600; text-align: center; min-height: 2em; }
@@ -140,8 +139,8 @@ final class RemoteServer {
       .btn-next { background: #16213e; color: #53d8fb; }
       .btn-play { background: #0f3460; color: #53d8fb; }
       .btn-stop { background: #e94560; color: #fff; }
-      .play-row { display: flex; gap: 16px; width: 100%; max-width: 400px; }
-      .play-row button { flex: 1; }
+      .play-row { display: flex; gap: 16px; width: 100%; max-width: 400px; flex: 1; min-height: 0; }
+      .play-row button { flex: 1; min-height: 0; height: auto; }
       .scroll-strip {
         width: 50px; flex-shrink: 0; background: #16213e; border-radius: 14px;
         display: flex; align-items: center; justify-content: center;
