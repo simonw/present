@@ -21,6 +21,12 @@ class PresentationState {
 
     private static let autosaveKey = "presentAutosavedURLs"
 
+    init() {
+        if let urls = UserDefaults.standard.stringArray(forKey: Self.autosaveKey), !urls.isEmpty {
+            self.slides = urls.map { Slide(url: $0) }
+        }
+    }
+
     var currentSlide: Slide? {
         guard !slides.isEmpty, currentIndex >= 0, currentIndex < slides.count else { return nil }
         return slides[currentIndex]

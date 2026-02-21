@@ -32,7 +32,6 @@ struct ContentView: View {
                     }
                 }
 
-                // Bottom toolbar
                 HStack {
                     Button(action: addSlide) {
                         Image(systemName: "plus")
