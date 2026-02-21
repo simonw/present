@@ -10,7 +10,7 @@ struct PresentationView: View {
             Color.black
 
             if let slide = state.currentSlide {
-                WebView(url: slide.url, pageZoom: state.zoomLevel)
+                WebView(url: slide.url, pageZoom: state.zoomLevel, scrollDelta: state.scrollDelta)
             } else {
                 Text("No slides")
                     .foregroundStyle(.white)

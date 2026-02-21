@@ -70,6 +70,19 @@ final class RemoteServer {
         case "/stop":
             NotificationCenter.default.post(name: .remoteStop, object: nil)
             return jsonResponse("ok")
+        case "/zoomin":
+            state?.zoomIn()
+            return jsonResponse("ok")
+        case "/zoomout":
+            state?.zoomOut()
+            return jsonResponse("ok")
+        case _ where path.hasPrefix("/scroll"):
+            if let query = path.split(separator: "?").last,
+               let dyParam = query.split(separator: "=").last,
+               let dy = Double(dyParam) {
+                state?.scrollBy(dy)
+            }
+            return jsonResponse("ok")
         case "/status":
             return statusResponse()
         default:
@@ -101,7 +114,7 @@ final class RemoteServer {
     <html lang="en">
     <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Present Remote</title>
     <style>
       * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -125,8 +138,19 @@ final class RemoteServer {
       button:active { transform: scale(0.95); opacity: 0.8; }
       .btn-prev { background: #16213e; color: #e94560; }
       .btn-next { background: #16213e; color: #53d8fb; }
-      .btn-play { background: #0f3460; color: #53d8fb; width: 100%; max-width: 400px; }
-      .btn-stop { background: #e94560; color: #fff; width: 100%; max-width: 400px; }
+      .btn-play { background: #0f3460; color: #53d8fb; }
+      .btn-stop { background: #e94560; color: #fff; }
+      .play-row { display: flex; gap: 16px; width: 100%; max-width: 400px; }
+      .play-row button { flex: 1; }
+      .scroll-strip {
+        width: 50px; flex-shrink: 0; background: #16213e; border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        color: #555; font-size: 1.2rem; touch-action: none; cursor: grab;
+      }
+      .scroll-strip:active { cursor: grabbing; background: #1a2740; }
+      .zoom-row { display: flex; gap: 16px; width: 100%; max-width: 400px; }
+      .btn-zoom { background: #16213e; color: #aaa; font-size: 1.3rem; min-height: 60px; }
+      html { touch-action: manipulation; }
     </style>
     </head>
     <body>
@@ -135,7 +159,14 @@ final class RemoteServer {
         <button class="btn-prev" onclick="send('/prev')">&lsaquo; Prev</button>
         <button class="btn-next" onclick="send('/next')">Next &rsaquo;</button>
       </div>
-      <button id="playBtn" class="btn-play" onclick="togglePlay()">&#9654; Start</button>
+      <div class="play-row">
+        <button id="playBtn" class="btn-play" onclick="togglePlay()">&#9654; Start</button>
+        <div class="scroll-strip" id="scrollStrip">&#8597;</div>
+      </div>
+      <div class="zoom-row">
+        <button class="btn-zoom" onclick="send('/zoomout')">A-</button>
+        <button class="btn-zoom" onclick="send('/zoomin')">A+</button>
+      </div>
       <div id="url"></div>
       <script>
         let presenting = false;
@@ -165,6 +196,25 @@ final class RemoteServer {
         }
         setInterval(poll, 1000);
         poll();
+
+        const strip = document.getElementById('scrollStrip');
+        let lastY = null;
+        strip.addEventListener('touchstart', e => {
+          e.preventDefault();
+          lastY = e.touches[0].clientY;
+        }, {passive: false});
+        strip.addEventListener('touchmove', e => {
+          e.preventDefault();
+          const y = e.touches[0].clientY;
+          if (lastY !== null) {
+            const dy = (y - lastY) * 3;
+            if (Math.abs(dy) > 1) {
+              fetch('/scroll?dy=' + Math.round(dy)).catch(() => {});
+              lastY = y;
+            }
+          }
+        }, {passive: false});
+        strip.addEventListener('touchend', () => { lastY = null; });
       </script>
     </body>
     </html>

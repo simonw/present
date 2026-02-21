@@ -4,6 +4,7 @@ import WebKit
 struct WebView: NSViewRepresentable {
     let url: String
     var pageZoom: Double = 1.0
+    var scrollDelta: Double = 0
 
     func makeNSView(context: Context) -> WKWebView {
         let webView = WKWebView()
@@ -16,6 +17,10 @@ struct WebView: NSViewRepresentable {
     func updateNSView(_ webView: WKWebView, context: Context) {
         webView.pageZoom = pageZoom
         loadURL(in: webView)
+        if scrollDelta != 0 {
+            let js = "window.scrollBy(0, \(scrollDelta));"
+            webView.evaluateJavaScript(js, completionHandler: nil)
+        }
     }
 
     private func loadURL(in webView: WKWebView) {
