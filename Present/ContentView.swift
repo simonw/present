@@ -13,6 +13,7 @@ struct ContentView: View {
                             Text("\(index + 1).")
                                 .foregroundStyle(.secondary)
                                 .frame(width: 24, alignment: .trailing)
+                                .draggable(slide.id.uuidString)
                             TextField("URL", text: Binding(
                                 get: { slide.url },
                                 set: { slide.url = $0; state.saveToDisk() }
@@ -20,9 +21,17 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                         }
                         .tag(slide.id)
-                    }
-                    .onMove { source, destination in
-                        state.slides.move(fromOffsets: source, toOffset: destination)
+                        .dropDestination(for: String.self) { items, _ in
+                            guard let draggedIDString = items.first,
+                                  let draggedID = UUID(uuidString: draggedIDString),
+                                  let fromIndex = state.slides.firstIndex(where: { $0.id == draggedID }),
+                                  let toIndex = state.slides.firstIndex(where: { $0.id == slide.id })
+                            else { return false }
+                            withAnimation {
+                                state.slides.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: toIndex > fromIndex ? toIndex + 1 : toIndex)
+                            }
+                            return true
+                        }
                     }
                 }
                 .listStyle(.sidebar)
