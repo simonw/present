@@ -4,6 +4,7 @@ import Network
 extension Notification.Name {
     static let remotePlay = Notification.Name("remotePlay")
     static let remoteStop = Notification.Name("remoteStop")
+    static let remoteScroll = Notification.Name("remoteScroll")
 }
 
 @MainActor
@@ -80,7 +81,7 @@ final class RemoteServer {
             if let query = path.split(separator: "?").last,
                let dyParam = query.split(separator: "=").last,
                let dy = Double(dyParam) {
-                state?.scrollBy(dy)
+                NotificationCenter.default.post(name: .remoteScroll, object: nil, userInfo: ["dy": dy])
             }
             return jsonResponse("ok")
         case "/status":
@@ -198,22 +199,36 @@ final class RemoteServer {
 
         const strip = document.getElementById('scrollStrip');
         let lastY = null;
+        let pendingDy = 0;
+        let sendTimer = null;
+        function flushScroll() {
+          if (pendingDy !== 0) {
+            fetch('/scroll?dy=' + Math.round(pendingDy)).catch(() => {});
+            pendingDy = 0;
+          }
+          sendTimer = null;
+        }
         strip.addEventListener('touchstart', e => {
           e.preventDefault();
           lastY = e.touches[0].clientY;
+          pendingDy = 0;
         }, {passive: false});
         strip.addEventListener('touchmove', e => {
           e.preventDefault();
           const y = e.touches[0].clientY;
           if (lastY !== null) {
-            const dy = (y - lastY) * 3;
-            if (Math.abs(dy) > 1) {
-              fetch('/scroll?dy=' + Math.round(dy)).catch(() => {});
-              lastY = y;
+            pendingDy += (y - lastY) * 2;
+            lastY = y;
+            if (!sendTimer) {
+              sendTimer = setTimeout(flushScroll, 50);
             }
           }
         }, {passive: false});
-        strip.addEventListener('touchend', () => { lastY = null; });
+        strip.addEventListener('touchend', () => {
+          lastY = null;
+          flushScroll();
+          if (sendTimer) { clearTimeout(sendTimer); sendTimer = null; }
+        });
       </script>
     </body>
     </html>

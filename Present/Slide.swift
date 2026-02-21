@@ -19,12 +19,10 @@ class PresentationState {
     var currentIndex: Int = 0
     var isPresenting: Bool = false
     var zoomLevel: Double = 1.0
-    var scrollDelta: Double = 0
 
     func zoomIn() { zoomLevel = min(zoomLevel + 0.1, 5.0) }
     func zoomOut() { zoomLevel = max(zoomLevel - 0.1, 0.3) }
     func zoomReset() { zoomLevel = 1.0 }
-    func scrollBy(_ dy: Double) { scrollDelta += dy }
 
     private static let autosaveKey = "presentAutosavedURLs"
 
