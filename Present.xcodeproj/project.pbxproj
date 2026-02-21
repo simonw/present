@@ -12,6 +12,7 @@
 		A10000010000000000000003 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000003 /* WebView.swift */; };
 		A10000010000000000000004 /* PresentationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000004 /* PresentationWindow.swift */; };
 		A10000010000000000000005 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000005 /* Slide.swift */; };
+		A10000010000000000000006 /* RemoteServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000007 /* RemoteServer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		A20000010000000000000004 /* PresentationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationWindow.swift; sourceTree = "<group>"; };
 		A20000010000000000000005 /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
 		A20000010000000000000006 /* Present.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Present.entitlements; sourceTree = "<group>"; };
+		A20000010000000000000007 /* RemoteServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteServer.swift; sourceTree = "<group>"; };
 		A30000010000000000000001 /* Present.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Present.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -51,6 +53,7 @@
 				A20000010000000000000003 /* WebView.swift */,
 				A20000010000000000000004 /* PresentationWindow.swift */,
 				A20000010000000000000005 /* Slide.swift */,
+				A20000010000000000000007 /* RemoteServer.swift */,
 				A20000010000000000000006 /* Present.entitlements */,
 			);
 			path = Present;
@@ -121,6 +124,7 @@
 				A10000010000000000000003 /* WebView.swift in Sources */,
 				A10000010000000000000004 /* PresentationWindow.swift in Sources */,
 				A10000010000000000000005 /* Slide.swift in Sources */,
+				A10000010000000000000006 /* RemoteServer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

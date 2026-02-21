@@ -1,14 +1,34 @@
 import SwiftUI
+import Combine
 import UniformTypeIdentifiers
 
 @main
 struct PresentApp: App {
-    @State private var state = PresentationState()
+    @State private var state: PresentationState
     @State private var presentationController = PresentationWindowController()
+    @State private var server: RemoteServer
+
+    init() {
+        let s = PresentationState()
+        let srv = RemoteServer()
+        srv.start(state: s)
+        _state = State(initialValue: s)
+        _server = State(initialValue: srv)
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView(state: state)
+                .onReceive(NotificationCenter.default.publisher(for: .remotePlay)) { _ in
+                    if !state.isPresenting {
+                        presentationController.open(state: state)
+                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .remoteStop)) { _ in
+                    if state.isPresenting {
+                        presentationController.close(state: state)
+                    }
+                }
         }
         .commands {
             CommandGroup(after: .newItem) {
