@@ -56,7 +56,7 @@ struct ContentView: View {
             .navigationSplitViewColumnWidth(min: 150, ideal: 250, max: 500)
         } detail: {
             if let slide = state.currentSlide {
-                WebView(url: slide.url)
+                WebView(url: slide.url, pageZoom: state.zoomLevel)
             } else {
                 VStack {
                     Text("No slide selected")

@@ -10,7 +10,7 @@ struct PresentationView: View {
             Color.black
 
             if let slide = state.currentSlide {
-                WebView(url: slide.url)
+                WebView(url: slide.url, pageZoom: state.zoomLevel)
             } else {
                 Text("No slides")
                     .foregroundStyle(.white)
@@ -69,6 +69,7 @@ class PresentationWindowController {
 
         // Key event monitor
         monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            let cmd = event.modifierFlags.contains(.command)
             switch event.keyCode {
             case 123: // Left arrow
                 state.goToPrevious()
@@ -78,6 +79,15 @@ class PresentationWindowController {
                 return nil
             case 53: // Escape
                 self?.close(state: state)
+                return nil
+            case 24, 69 where cmd: // Cmd+= / Cmd+Numpad+
+                state.zoomIn()
+                return nil
+            case 27, 78 where cmd: // Cmd+- / Cmd+Numpad-
+                state.zoomOut()
+                return nil
+            case 29 where cmd: // Cmd+0
+                state.zoomReset()
                 return nil
             default:
                 return event

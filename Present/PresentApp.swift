@@ -24,6 +24,23 @@ struct PresentApp: App {
                 .keyboardShortcut("s", modifiers: .command)
             }
 
+            CommandMenu("View") {
+                Button("Zoom In") {
+                    state.zoomIn()
+                }
+                .keyboardShortcut("+", modifiers: .command)
+
+                Button("Zoom Out") {
+                    state.zoomOut()
+                }
+                .keyboardShortcut("-", modifiers: .command)
+
+                Button("Actual Size") {
+                    state.zoomReset()
+                }
+                .keyboardShortcut("0", modifiers: .command)
+            }
+
             CommandMenu("Presentation") {
                 Button("Play") {
                     presentationController.open(state: state)

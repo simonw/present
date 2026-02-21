@@ -3,15 +3,18 @@ import WebKit
 
 struct WebView: NSViewRepresentable {
     let url: String
+    var pageZoom: Double = 1.0
 
     func makeNSView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.allowsBackForwardNavigationGestures = false
+        webView.pageZoom = pageZoom
         loadURL(in: webView)
         return webView
     }
 
     func updateNSView(_ webView: WKWebView, context: Context) {
+        webView.pageZoom = pageZoom
         loadURL(in: webView)
     }
 
