@@ -10,6 +10,8 @@ A macOS SwiftUI app for giving presentations where each slide is a URL displayed
 - **File I/O**: File > Open/Save As for plain text files (one URL per line)
 - **Zoom**: Cmd+=/- to adjust text size in both preview and fullscreen
 - **Drag to reorder**: Drag slides by their number to rearrange
+- **Image slides**: URLs ending in `.png`, `.gif`, `.jpg`, `.jpeg`, `.webp`, or `.svg` render as full-window images
+- **Remote control**: Embedded HTTP server on port 9123 serves a mobile-friendly page with next/prev, play/stop, zoom, and scroll controls
 
 ## Building from the command line
 
