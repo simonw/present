@@ -13,6 +13,21 @@ A macOS SwiftUI app for giving presentations where each slide is a URL displayed
 - **Image slides**: URLs ending in `.png`, `.gif`, `.jpg`, `.jpeg`, `.webp`, or `.svg` render as full-window images
 - **Remote control**: Embedded HTTP server on port 9123 serves a mobile-friendly page with next/prev, play/stop, zoom, and scroll controls
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="present.jpg" alt="Screenshot of a macOS app window titled 'Present' showing Google Image search results for 'kakapo'. A web view shows a Google image search with thumbnail photos of kākāpō parrots with captions. A sidebar on the left shows a numbered list of URLs, mostly from simonwillison.net and static.simonwillison.net, with item 4 (https://www.google.com/search?...) highlighted in blue." width="600"><br>
+      <em>Desktop</em>
+    </td>
+    <td align="center">
+      <img src="present-mobile.jpg" alt="Mobile phone web browser app with large buttons, Slide 4/31 at the top, Prev, Next and Start buttons, a thin bar with a up/down scroll icon and text size + and - buttons and the current slide URL at the bottom." width="250"><br>
+      <em>Mobile remote</em>
+    </td>
+  </tr>
+</table>
+
 ## Building from the command line
 
 Build and run without opening Xcode:
