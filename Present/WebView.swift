@@ -19,31 +19,31 @@ struct WebView: NSViewRepresentable {
         webView.allowsBackForwardNavigationGestures = false
         context.coordinator.webView = webView
         context.coordinator.startListening()
-        applyContent(in: webView)
+        applyContent(in: webView, coordinator: context.coordinator)
         return webView
     }
 
     func updateNSView(_ webView: WKWebView, context: Context) {
         context.coordinator.webView = webView
-        applyContent(in: webView)
+        applyContent(in: webView, coordinator: context.coordinator)
     }
 
-    private func applyContent(in webView: WKWebView) {
+    private func applyContent(in webView: WKWebView, coordinator: Coordinator) {
         if isImageURL {
             webView.pageZoom = 1.0
             let resolvedURL = resolveURL(url)
-            let currentBaseURL = webView.url?.absoluteString
-            let imagePageID = "image:" + resolvedURL
-            if currentBaseURL != imagePageID {
+            if coordinator.lastLoadedURL != resolvedURL {
+                coordinator.lastLoadedURL = resolvedURL
                 let html = """
                 <!DOCTYPE html>
                 <html><head><meta name="viewport" content="width=device-width">
-                <style>*{margin:0;padding:0}body{background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh}img{width:100%;height:auto}</style>
+                <style>*{margin:0;padding:0;overflow:hidden}body{background:#000;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh}img{max-width:100vw;max-height:100vh;object-fit:contain}</style>
                 </head><body><img src="\(resolvedURL)"></body></html>
                 """
-                webView.loadHTMLString(html, baseURL: URL(string: imagePageID))
+                webView.loadHTMLString(html, baseURL: nil)
             }
         } else {
+            coordinator.lastLoadedURL = nil
             webView.pageZoom = pageZoom
             loadURL(in: webView)
         }
@@ -70,6 +70,7 @@ struct WebView: NSViewRepresentable {
 
     class Coordinator {
         weak var webView: WKWebView?
+        var lastLoadedURL: String?
         private var observer: NSObjectProtocol?
 
         func startListening() {
