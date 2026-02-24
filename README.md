@@ -2,6 +2,9 @@
 
 A macOS SwiftUI app for giving presentations where each slide is a URL displayed in a WebView.
 
+> [!WARNING]  
+> This app was vibe coded as a demo for a conference (where I presented a talk using this app). I do not know Swift or SwiftUI. I make no promises other than it worked on my machine!
+
 ## Features
 
 - **Edit mode**: Split view with a sidebar for managing URLs and a WebView preview panel
