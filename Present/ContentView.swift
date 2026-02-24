@@ -76,16 +76,6 @@ struct ContentView: View {
                 selection = first.id
             }
         }
-        .onKeyPress(.leftArrow) {
-            state.goToPrevious()
-            selection = state.currentSlide?.id
-            return .handled
-        }
-        .onKeyPress(.rightArrow) {
-            state.goToNext()
-            selection = state.currentSlide?.id
-            return .handled
-        }
     }
 
     private func addSlide() {
