@@ -46,6 +46,23 @@ To clean the build:
 rm -rf build
 ```
 
+## Creating a release
+
+To create a zip of the app for attaching to a GitHub release:
+
+```bash
+xcodebuild -project Present.xcodeproj -scheme Present -configuration Release build SYMROOT=build
+cd build/Release && zip -r Present.app.zip Present.app
+```
+
+Then upload it to a GitHub release:
+
+```bash
+gh release create <tag> build/Release/Present.app.zip --title "Present <tag>"
+```
+
+Note: the app is not signed or notarized, so users will need to right-click > Open on first launch to bypass Gatekeeper.
+
 ## Usage
 
 1. Build and launch using the command above, or open `Present.xcodeproj` in Xcode and build/run (Cmd+R)
