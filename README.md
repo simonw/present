@@ -81,6 +81,10 @@ https://github.com
 https://simonwillison.net
 ```
 
+## Code walkthrough
+
+See [walkthrough.md](walkthrough.md) for a detailed walkthrough of the codebase.
+
 ## License
 
 Apache License 2.0
